@@ -1,0 +1,16 @@
+body {
+  background-color: white;
+  color: #333;
+}
+input, textarea, button {
+  font-size: inherit;
+}
+button, .button {
+  padding: 15px;
+  border: 2px solid #333;
+}
+@media all and (max-width: 700px) {
+  button, .button {
+    padding: 10px;
+  }
+}

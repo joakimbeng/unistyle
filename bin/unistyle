@@ -1,0 +1,36 @@
+#!/usr/bin/env node
+/* eslint no-var: false */
+var yargs = require('yargs');
+
+require('babel/register');
+
+var argv = yargs
+  .usage('Usage: $0 [options] <path to module>')
+  .option('o', {
+    alias: 'output',
+    describe: 'Output compiled CSS to specified file instead of to stdout',
+    type: 'string'
+  })
+  .demand(1, 'A path to a module must be provided')
+  .wrap(null)
+  .example('$0 -o app.css src/styles.js', 'Compile src/styles.js to app.css')
+  .example('$0 -o style.css style', 'Compile style/index.js to style.css')
+  .help('h')
+  .version(function() {
+    return require('../package').version;
+  })
+  .alias('h', 'help')
+  .alias('v', 'version')
+  .argv;
+
+var compile = require('../src');
+
+compile({file: argv._[0], output: argv.output}, function (err, css) {
+  if (err) {
+    console.error(err.stack);
+    return process.exit(1);
+  } else if (!argv.output) {
+    console.log(css);
+  }
+  process.exit(0);
+});
