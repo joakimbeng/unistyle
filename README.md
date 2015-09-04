@@ -256,23 +256,23 @@ Compiling to CSS with `unistyle examples/react/separate/styles.js`, gives the fo
 
 Because Unistyle CSS modules are JavaScript only, they are easily reused if you publish them to [npm](https://www.npmjs.com/) after which they can be installed and imported/required.
 
-When publishing a Unistyle CSS module to `npm` I recommend adding `"unistyle"` as a keyword in your `package.json` for easier discoverability.
+When publishing a Unistyle CSS module to `npm` I recommend adding [`"unistyle"`](https://www.npmjs.com/browse/keyword/unistyle) as a keyword in your `package.json` for easier discoverability.
 
 #### Using third party modules
 
-When adding third party modules to your app's Unistyle CSS you should export an array instead of an object, like so:
+When adding third party modules to your app's Unistyle CSS you should export an array instead of an object, for instance with [`normalize-unistyle`](https://www.npmjs.com/package/normalize-unistyle):
 
 ```javascript
-import thirdParty from 'third-party-unistyle-module';
+import normalize from 'normalize-unistyle';
 import myStyles from './my-styles';
 
 export default [
-  thirdParty,
+  normalize,
   myStyles
 ];
 ```
 
-This is to have colliding selectors in `thirdParty` and `myStyles` merged instead of overwritten.
+This is to have colliding selectors in `normalize-unistyle` and `myStyles` merged instead of overwritten.
 
 E.g. compiling this (`examples/third-party/object.js`):
 
