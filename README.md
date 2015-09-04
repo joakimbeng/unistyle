@@ -347,11 +347,9 @@ Then you can add a `build` script to `package.json` like so:
 
 ```json
 {
-  ...
   "scripts": {
     "build": "unistyle styles/ | cssmin > styles.min.css"
   }
-  ...
 }
 ```
 
@@ -368,11 +366,9 @@ Then you can add a `build` script to `package.json` like so:
 
 ```json
 {
-  ...
   "scripts": {
     "build": "unistyle styles/ | postcss --use autoprefixer -o styles.css"
   }
-  ...
 }
 ```
 
