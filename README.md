@@ -92,7 +92,7 @@ body, .btn {
 
 ### Extending declarations
 
-_Every preprocesser I can think of (e.g. LESS, Sass and Stylus) have the ability to extend one CSS declaration with another, for reusability. They all have their own syntax, however with Unistyle you can use the [object spread](https://github.com/sebmarkbage/ecmascript-rest-spread/blob/master/Spread.md) syntax (which you should already be using if Babel is your thing):_
+_Every preprocessor I can think of (e.g. LESS, Sass and Stylus) have the ability to extend one CSS declaration with another, for reusability. They all have their own syntax, however with Unistyle you can use the [object spread](https://github.com/sebmarkbage/ecmascript-rest-spread/blob/master/Spread.md) syntax (which you should already be using if Babel is your thing):_
 
 In `examples/extend/common.js`:
 
