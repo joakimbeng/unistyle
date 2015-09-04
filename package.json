@@ -1,6 +1,6 @@
 {
   "name": "unistyle",
-  "version": "0.1.2",
+  "version": "0.1.3",
   "description": "Write modular and scalable CSS using the next version of ECMAScript.",
   "main": "src/index.js",
   "bin": {
