@@ -1,8 +1,20 @@
 #!/usr/bin/env node
 /* eslint no-var: false */
+var path = require('path');
 var yargs = require('yargs');
+var escape = require('escape-regex-string');
 
-require('babel/register');
+function ignore(filepath) {
+  var str = escape(path.join.apply(path, filepath));
+  return new RegExp('^' + str);
+}
+
+require('babel/register')({
+  ignore: [
+    ignore([path.dirname(__dirname), 'node_modules']),
+    ignore([process.cwd(), 'node_modules'])
+  ]
+});
 
 var argv = yargs
   .usage('Usage: $0 [options] <path to module>')

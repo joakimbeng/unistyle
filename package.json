@@ -46,6 +46,7 @@
     "absurd": "^0.3.5",
     "arrify": "^1.0.0",
     "babel": "^5.8.21",
+    "escape-regex-string": "^1.0.4",
     "pixelify": "^1.0.0",
     "yargs": "^3.21.0"
   }
