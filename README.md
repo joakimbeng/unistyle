@@ -333,6 +333,52 @@ body {
 }
 ```
 
+## What about minification or autoprefixing?
+
+Use existing modules for this.
+
+### Using [`cssmin`](https://www.npmjs.com/package/cssmin) for minification
+
+```bash
+npm install --save unistyle cssmin
+```
+
+Then you can add a `build` script to `package.json` like so:
+
+```json
+{
+  ...
+  "scripts": {
+    "build": "unistyle styles/ | cssmin > styles.min.css"
+  }
+  ...
+}
+```
+
+And then run: `npm run build` to create `styles.min.css`.
+
+
+### Using [`autoprefixer`](https://www.npmjs.com/package/autoprefixer) for prefixing
+
+```bash
+npm install --save unistyle postcss-cli autoprefixer
+```
+
+Then you can add a `build` script to `package.json` like so:
+
+```json
+{
+  ...
+  "scripts": {
+    "build": "unistyle styles/ | postcss --use autoprefixer -o styles.css"
+  }
+  ...
+}
+```
+
+And then run: `npm run build` to create `styles.css`.
+
+
 ## How does it work?
 
 Unistyle uses [Babel](https://babeljs.io) and [AbsurdJS](http://absurdjs.com/pages/css-preprocessing/) under the hood. Which means you can use all syntax features available in them both. Though I highly recommend you *not* using [AbsurdJS CSS atoms](http://absurdjs.com/pages/css-preprocessing/organic-css/) for the sake of readability.
