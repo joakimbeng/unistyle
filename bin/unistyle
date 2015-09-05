@@ -1,20 +1,7 @@
 #!/usr/bin/env node
-/* eslint no-var: false */
-var path = require('path');
 var yargs = require('yargs');
-var escape = require('escape-regex-string');
 
-function ignore(filepath) {
-  var str = escape(path.join.apply(path, filepath));
-  return new RegExp('^' + str);
-}
-
-require('babel/register')({
-  ignore: [
-    ignore([path.dirname(__dirname), 'node_modules']),
-    ignore([process.cwd(), 'node_modules'])
-  ]
-});
+require('babel/register');
 
 var argv = yargs
   .usage('Usage: $0 [options] <path to module>')
@@ -28,7 +15,7 @@ var argv = yargs
   .example('$0 -o app.css src/styles.js', 'Compile src/styles.js to app.css')
   .example('$0 -o style.css style', 'Compile style/index.js to style.css')
   .help('h')
-  .version(function() {
+  .version(function () {
     return require('../package').version;
   })
   .alias('h', 'help')

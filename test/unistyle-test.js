@@ -1,12 +1,14 @@
-import {readFileSync} from 'fs';
-import {join} from 'path';
-import test from 'ava';
-import compile from '../src';
+var exec = require('child_process').exec;
+var readFileSync = require('fs').readFileSync;
+var join = require('path').join;
+var test = require('ava');
 
-test('compiles esnext code to css', assert => {
+test('compiles esnext code to css', function (assert) {
   assert.plan(2);
-  compile({file: join(__dirname, 'fixtures')}, (err, css) => {
+  exec('bin/unistyle ' + join(__dirname, 'fixtures'), function (err, css) {
     assert.error(err, 'No error should occur');
-    assert.is(css, readFileSync(join(__dirname, 'expected.css'), 'utf8'), 'The correct css should have been compiled');
+    var actual = css.toString().trim();
+    var expected = readFileSync(join(__dirname, 'expected.css'), 'utf8').trim();
+    assert.is(actual, expected, 'The correct css should have been compiled');
   });
 });

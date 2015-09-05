@@ -1,16 +1,23 @@
-import {resolve} from 'path';
-import absurd from 'absurd';
-import arrify from 'arrify';
-import pixelify from 'pixelify';
+var resolve = require('path').resolve;
+var absurd = require('absurd');
+var arrify = require('arrify');
+var pixelify = require('pixelify');
 
-export default function compile({file, output = null}, cb) {
-  const mod = arrify(require(resolve(file)));
+module.exports = function compile(opts, cb) {
+  opts = opts || {};
+  var file = opts.file;
+  var output = opts.output;
+  var mod = arrify(require(resolve(file)));
 
-  const css = absurd(api => mod.forEach(decl => api.add(pixelify(decl))));
+  var css = absurd(function (api) {
+    mod.forEach(function (decl) {
+      api.add(pixelify(decl));
+    });
+  });
 
   if (output) {
     css.compileFile(resolve(output), cb);
   } else {
     css.compile(cb);
   }
-}
+};
