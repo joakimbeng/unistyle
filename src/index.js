@@ -5,9 +5,16 @@ var pixelify = require('pixelify');
 
 module.exports = function compile(opts, cb) {
   opts = opts || {};
+  var src = opts.src;
   var file = opts.file;
   var output = opts.output;
-  var mod = arrify(require(resolve(file)));
+  var mod;
+
+  if (file) {
+    mod = arrify(require(resolve(file)));
+  } else {
+    mod = arrify(src);
+  }
 
   var css = absurd(function (api) {
     mod.forEach(function (decl) {

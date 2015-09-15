@@ -30,7 +30,7 @@
   "repository": "joakimbeng/unistyle",
   "license": "MIT",
   "devDependencies": {
-    "ava": "^0.1.0",
+    "ava": "^0.2.0",
     "xo": "^0.8.0"
   },
   "xo": {
