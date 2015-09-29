@@ -1,30 +1,27 @@
-var resolve = require('path').resolve;
-var absurd = require('absurd');
-var arrify = require('arrify');
+'use strict';
+var path = require('path');
+var toCss = require('to-css');
+var flat = require('unistyle-flat');
+var mergeAll = require('merge-all');
 var pixelify = require('pixelify');
+var dashify = require('dashify');
 
-module.exports = function compile(opts, cb) {
-  opts = opts || {};
-  var src = opts.src;
-  var file = opts.file;
-  var output = opts.output;
-  var mod;
+module.exports = function compile(obj) {
+  return new Promise(function (resolve) {
+    if (typeof obj === 'string') {
+      obj = require(path.resolve(obj));
+    }
 
-  if (file) {
-    mod = arrify(require(resolve(file)));
-  } else {
-    mod = arrify(src);
-  }
+    if (Array.isArray(obj)) {
+      obj = mergeAll(obj.map(flat));
+    } else {
+      obj = flat(obj);
+    }
 
-  var css = absurd(function (api) {
-    mod.forEach(function (decl) {
-      api.add(pixelify(decl));
-    });
+    resolve(toCss(obj, {
+      indent: '\t',
+      property: dashify,
+      value: pixelify
+    }));
   });
-
-  if (output) {
-    css.compileFile(resolve(output), cb);
-  } else {
-    css.compile(cb);
-  }
 };

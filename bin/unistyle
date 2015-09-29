@@ -1,35 +1,49 @@
 #!/usr/bin/env node
-var yargs = require('yargs');
-
-require('babel/register');
-
-var argv = yargs
-  .usage('Usage: $0 [options] <path to module>')
-  .option('o', {
-    alias: 'output',
-    describe: 'Output compiled CSS to specified file instead of to stdout',
-    type: 'string'
-  })
-  .demand(1, 'A path to a module must be provided')
-  .wrap(null)
-  .example('$0 -o app.css src/styles.js', 'Compile src/styles.js to app.css')
-  .example('$0 -o style.css style', 'Compile style/index.js to style.css')
-  .help('h')
-  .version(function () {
-    return require('../package').version;
-  })
-  .alias('h', 'help')
-  .alias('v', 'version')
-  .argv;
-
+var pify = require('pify');
+var writeFile = pify(require('fs').writeFile);
+var meow = require('meow');
 var compile = require('../src');
 
-compile({file: argv._[0], output: argv.output}, function (err, css) {
-  if (err) {
-    console.error(err.stack);
-    return process.exit(1);
-  } else if (!argv.output) {
-    console.log(css);
+var cli = meow({
+  help: [
+    'Usage:',
+    '  unistyle [options] <path to module>',
+    '',
+    'Options:',
+    '  -o, --output   Output compiled CSS to specified file instead of to stdout  [string]',
+    '  --babel        Compile source using Babel before applying Unistyle  [boolean=true]',
+    '  -h, --help     Show help  [boolean]',
+    '  -v, --version  Show version number  [boolean]',
+    '',
+    'Examples:',
+    '  unistyle -o app.css src/styles.js       Compile src/styles.js to app.css',
+    '  unistyle --no-babel -o style.css style  Compile style/index.js without Babel to style.css'
+  ],
+  pkg: '../package.json'
+}, {
+  string: ['_', 'output'],
+  boolean: ['babel'],
+  default: {
+    babel: true
+  },
+  alias: {
+    o: 'output'
   }
-  process.exit(0);
 });
+
+if (cli.flags.babel) {
+  require('babel-core/register');
+}
+
+compile(cli.input[0])
+  .then(function (css) {
+    if (!cli.flags.output) {
+      console.log(css);
+      process.exit(0);
+    }
+    return writeFile(cli.flags.output, css, 'utf8');
+  })
+  .catch(function (err) {
+    console.error(err.stack);
+    process.exit(1);
+  });

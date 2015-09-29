@@ -31,7 +31,9 @@
   "license": "MIT",
   "devDependencies": {
     "ava": "^0.2.0",
-    "xo": "^0.8.0"
+    "os-tmpdir": "^1.0.1",
+    "promise-all": "^1.0.0",
+    "xo": "^0.9.0"
   },
   "xo": {
     "space": true,
@@ -45,10 +47,13 @@
     "example": "examples"
   },
   "dependencies": {
-    "absurd": "^0.3.5",
-    "arrify": "^1.0.0",
-    "babel": "^5.8.21",
-    "pixelify": "^1.0.0",
-    "yargs": "^3.21.0"
+    "babel-core": "^5.8.25",
+    "dashify": "^0.2.0",
+    "meow": "^3.3.0",
+    "merge-all": "^1.0.0",
+    "pify": "^2.2.0",
+    "pixelify": "^2.0.0",
+    "to-css": "^1.1.0",
+    "unistyle-flat": "^1.0.0"
   }
 }

@@ -27,16 +27,20 @@ npm install --save unistyle
 ```bash
 $> unistyle --help
 
-Usage: bin/unistyle [options] <path to module>
+  Write modular and scalable CSS using the next version of ECMAScript.
 
-Options:
-  -o, --output   Output compiled CSS to specified file instead of to stdout  [string]
-  -h, --help     Show help  [boolean]
-  -v, --version  Show version number  [boolean]
+  Usage:
+    unistyle [options] <path to module>
 
-Examples:
-  bin/unistyle -o app.css src/styles.js  Compile src/styles.js to app.css
-  bin/unistyle -o style.css style        Compile style/index.js to style.css
+  Options:
+    -o, --output   Output compiled CSS to specified file instead of to stdout  [string]
+    --babel        Compile source using Babel before applying Unistyle  [boolean=true]
+    -h, --help     Show help  [boolean]
+    -v, --version  Show version number  [boolean]
+
+  Examples:
+    unistyle -o app.css src/styles.js       Compile src/styles.js to app.css
+    unistyle --no-babel -o style.css style  Compile style/index.js without Babel to style.css
 ```
 
 ## Examples
@@ -92,7 +96,7 @@ body, .btn {
 
 ### Extending declarations
 
-_Every preprocessor I can think of (e.g. LESS, Sass and Stylus) have the ability to extend one CSS declaration with another, for reusability. They all have their own syntax, however with Unistyle you can use the [object spread](https://github.com/sebmarkbage/ecmascript-rest-spread/blob/master/Spread.md) syntax (which you should already be using if Babel is your thing):_
+_Every preprocessor I can think of (e.g. LESS, Sass and Stylus) have the ability to extend one CSS declaration with another, for reusability. They all have their own syntax, however with Unistyle you can use the [object rest spread](https://github.com/sebmarkbage/ecmascript-rest-spread/blob/master/Spread.md) syntax (which you should already be using if Babel is your thing):_
 
 In `examples/extend/common.js`:
 
@@ -254,7 +258,7 @@ Compiling to CSS with `unistyle examples/react/separate/styles.js`, gives the fo
 
 ### Publishing Unistyle modules to [npm](https://www.npmjs.com/)
 
-Because Unistyle CSS modules are JavaScript only, they are easily reused if you publish them to [npm](https://www.npmjs.com/) after which they can be installed and imported/required.
+Because Unistyle CSS modules are JavaScript only, they are easily reused if you publish them to [npm](https://www.npmjs.com/) after which they can be installed and imported/required. Babel module best practices still applies though, i.e. you should transpile your code before publishing.
 
 When publishing a Unistyle CSS module to `npm` I recommend adding [`"unistyle"`](https://www.npmjs.com/browse/keyword/unistyle) as a keyword in your `package.json` for easier discoverability.
 
@@ -377,9 +381,21 @@ And then run: `npm run build` to create `styles.css`.
 
 ## How does it work?
 
-Unistyle uses [Babel](https://babeljs.io) and [AbsurdJS](http://absurdjs.com/pages/css-preprocessing/) under the hood. Which means you can use all syntax features available in them both. Though I highly recommend you *not* using [AbsurdJS CSS atoms](http://absurdjs.com/pages/css-preprocessing/organic-css/) for the sake of readability.
+Unistyle uses [Babel](https://babeljs.io) ~~and [AbsurdJS](http://absurdjs.com/pages/css-preprocessing/)~~ under the hood. Unistyle does not use AbsurdJS anymore, but instead uses [`unistyle-flat`](https://github.com/joakimbeng/unistyle-flat) to allow nesting of styles and [`to-css`](https://github.com/joakimbeng/to-css) to compile to CSS. This is because AbsurdJS had so many more features than are actually needed which makes Unistyle less magical now.
 
-There is only one difference between the CSS you write with AbsurdJS from that with Unistyle, and that is: CSS properties with number values not equal to `0` are assumed to be pixels and therefore appended with `'px'`, i.e. `{fontSize: 10} => font-size: 10px;` (see [`pixelify`](https://www.npmjs.com/package/pixelify) for more info). This makes your Unistyle modules compatible with [React inline styles](https://facebook.github.io/react/tips/inline-styles.html).
+Unistyle also uses [`dashify`](https://github.com/jonschlinkert/dashify) and [`pixelify`](https://github.com/joakimbeng/pixelify) to be able to write CSS properties in camelCase (to lessen the need for quotes) and to append values with `'px'` when appropriate, i.e. `{fontSize: 10} => font-size: 10px;`. This makes your Unistyle modules compatible with [React inline styles](https://facebook.github.io/react/tips/inline-styles.html).
+
+**Note:** [`to-css`](https://github.com/joakimbeng/to-css)'s feature to [set a property multiple times](https://github.com/joakimbeng/to-css#when-you-want-to-set-a-property-multiple-times) should not be used in your inline styles and only in your compiled stylesheet.
+
+## API
+
+### `compile(obj)`
+
+| Name | Type | Description |
+|------|------|-------------|
+| obj | `Object|Array` | The Unistyle Object to compile to CSS |
+
+Returns: `Promise`, which resolves to the compiles CSS string.
 
 ## License
 
