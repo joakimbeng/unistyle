@@ -169,6 +169,52 @@ body {
 }
 ```
 
+### Multiple `@font-face` declarations
+
+You can specify multiple `@font-face` declarations using arrays.
+
+In `examples/font-faces/index.js`:
+
+```javascript
+export default {
+  '@font-face': [
+    font('my-web-font', 'webfont'),
+    font('my-other-font', 'otherfont')
+  ]
+};
+
+function font(family, filename) {
+  return {
+    fontFamily: `"${family}"`,
+    src: [
+      `url("${filename}.eot")`,
+      [
+        `url("${filename}.eot?#iefix") format("embedded-opentype")`,
+        `url("${filename}.woff2") format("woff2")`,
+        `url("${filename}.woff") format("woff")`,
+        `url("${filename}.ttf") format("truetype")`,
+        `url("${filename}.svg?#svgFontName") format("svg")`
+      ].join(', ')
+    ]
+  };
+}
+```
+
+Compiling with `unistyle examples/font-faces` will give:
+
+```css
+@font-face {
+  font-family: "my-web-font";
+  src: url("webfont.eot");
+  src: url("webfont.eot?#iefix") format("embedded-opentype"), url("webfont.woff2") format("woff2"), url("webfont.woff") format("woff"), url("webfont.ttf") format("truetype"), url("webfont.svg?#svgFontName") format("svg");
+}
+@font-face {
+  font-family: "my-other-font";
+  src: url("otherfont.eot");
+  src: url("otherfont.eot?#iefix") format("embedded-opentype"), url("otherfont.woff2") format("woff2"), url("otherfont.woff") format("woff"), url("otherfont.ttf") format("truetype"), url("otherfont.svg?#svgFontName") format("svg");
+}
+```
+
 ### Using Unistyle with React
 
 #### As inline style

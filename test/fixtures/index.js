@@ -2,7 +2,11 @@ import {dark} from './vars/colors';
 import forms from './forms';
 
 const thirdPart = {
-  body: {
+  '@font-face': {
+    fontFamily: '"3rdPartyFont"',
+    src: 'url(3rdPartyFont.woff)'
+  },
+  'body': {
     backgroundColor: 'white'
   }
 };
@@ -10,7 +14,11 @@ const thirdPart = {
 export default [
   thirdPart,
   {
-    body: {
+    '@font-face': {
+      fontFamily: '"AppFont"',
+      src: 'url(AppFont.woff)'
+    },
+    'body': {
       color: dark
     }
   },

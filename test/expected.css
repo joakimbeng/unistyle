@@ -1,3 +1,11 @@
+@font-face {
+	font-family: "3rdPartyFont";
+	src: url(3rdPartyFont.woff);
+}
+@font-face {
+	font-family: "AppFont";
+	src: url(AppFont.woff);
+}
 body {
 	background-color: white;
 	color: #333;
