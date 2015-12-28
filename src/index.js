@@ -3,7 +3,7 @@ var path = require('path');
 var toCss = require('to-css');
 var flat = require('unistyle-flat');
 var pixelify = require('pixelify');
-var dashify = require('dashify');
+var kebabCase = require('kebab-case');
 
 module.exports = function compile(obj) {
   return new Promise(function (resolve) {
@@ -12,7 +12,7 @@ module.exports = function compile(obj) {
     }
     resolve(toCss(flat(obj), {
       indent: '\t',
-      property: dashify,
+      property: kebabCase,
       value: pixelify
     }));
   });

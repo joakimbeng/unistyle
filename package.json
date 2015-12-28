@@ -48,7 +48,7 @@
   },
   "dependencies": {
     "babel-core": "^5.8.25",
-    "dashify": "^0.2.0",
+    "kebab-case": "^1.0.0",
     "meow": "^3.3.0",
     "pify": "^2.2.0",
     "pixelify": "^2.0.1",
