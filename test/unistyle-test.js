@@ -1,45 +1,48 @@
-'use strict';
-var pify = require('pify');
-var readFile = pify(require('fs').readFile);
-var exec = pify(require('child_process').execFile);
-var all = require('promise-all');
-var join = require('path').join;
-var test = require('ava');
-var osTmpdir = require('os-tmpdir');
-var unistyle = require('../src');
+const pify = require('pify');
+const readFile = pify(require('fs').readFile);
+const exec = pify(require('child_process').execFile);
+const all = require('promise-all');
+const join = require('path').join;
+const test = require('ava');
+const osTmpdir = require('os-tmpdir');
+const unistyle = require('../src');
 
-var TMP = osTmpdir();
+const TMP = osTmpdir();
 
-test('compiles esnext code to css', function (assert) {
+test('compiles node v4 code to css', async assert => {
   assert.plan(1);
-  return all({
-    actual: unistyle(require('./fixtures')),
+  const res = await all({
+    actual: unistyle(require('./fixtures-node-v4')),
     expected: readFile(join(__dirname, 'expected.css'), 'utf8')
-  })
-  .then(function (res) {
-    assert.is(res.actual.trim(), res.expected.trim());
   });
+  assert.is(res.actual.trim(), res.expected.trim());
 });
 
-test('output file', function (assert) {
+test('compiles esnext code to css', async assert => {
+  assert.plan(1);
+  const res = await all({
+    actual: unistyle(require('./fixture')),
+    expected: readFile(join(__dirname, 'expected.css'), 'utf8')
+  });
+  assert.is(res.actual.trim(), res.expected.trim());
+});
+
+test('compiles babel compiled code to css', async assert => {
+  assert.plan(1);
+  const res = await all({
+    actual: unistyle(require('./fixtures-es5')),
+    expected: readFile(join(__dirname, 'expected.css'), 'utf8')
+  });
+  assert.is(res.actual.trim(), res.expected.trim());
+});
+
+test('output file', async assert => {
   assert.plan(1);
   var tmpFile = join(TMP, Number(new Date()) + '_actual.css');
-  return exec('bin/unistyle', ['-o', tmpFile, join(__dirname, 'fixtures')])
-    .then(function () {
-      return all({
-        actual: readFile(tmpFile, 'utf8'),
-        expected: readFile(join(__dirname, 'expected.css'), 'utf8')
-      });
-    })
-    .then(function (res) {
-      assert.is(res.actual.trim(), res.expected.trim());
-    });
-});
-
-test('no-babel', function (assert) {
-  assert.plan(1);
-  return exec('bin/unistyle', ['--no-babel', join(__dirname, 'fixtures')])
-    .catch(function (err) {
-      assert.regexTest(/SyntaxError/, err.message);
-    });
+  await exec(join(__dirname, '..', 'bin', 'unistyle'), ['-o', tmpFile, join(__dirname, 'fixtures-es5')]);
+  const res = await all({
+    actual: readFile(tmpFile, 'utf8'),
+    expected: readFile(join(__dirname, 'expected.css'), 'utf8')
+  });
+  assert.is(res.actual.trim(), res.expected.trim());
 });

@@ -11,29 +11,19 @@ var cli = meow({
     '',
     'Options:',
     '  -o, --output   Output compiled CSS to specified file instead of to stdout  [string]',
-    '  --babel        Compile source using Babel before applying Unistyle  [boolean=true]',
     '  -h, --help     Show help  [boolean]',
     '  -v, --version  Show version number  [boolean]',
     '',
     'Examples:',
-    '  unistyle -o app.css src/styles.js       Compile src/styles.js to app.css',
-    '  unistyle --no-babel -o style.css style  Compile style/index.js without Babel to style.css'
+    '  unistyle -o app.css src/styles.js       Compile src/styles.js to app.css'
   ],
   pkg: '../package.json'
 }, {
   string: ['_', 'output'],
-  boolean: ['babel'],
-  default: {
-    babel: true
-  },
   alias: {
     o: 'output'
   }
 });
-
-if (cli.flags.babel) {
-  require('babel-core/register');
-}
 
 compile(cli.input[0])
   .then(function (css) {
@@ -42,8 +32,4 @@ compile(cli.input[0])
       process.exit(0);
     }
     return writeFile(cli.flags.output, css, 'utf8');
-  })
-  .catch(function (err) {
-    console.error(err.stack);
-    process.exit(1);
   });

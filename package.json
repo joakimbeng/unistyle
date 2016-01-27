@@ -8,8 +8,11 @@
   },
   "scripts": {
     "lint": "xo",
-    "pretest": "npm run -s lint",
-    "test": "ava 'test/*-test.js'"
+    "precompile:fixtures": "rm -rf test/fixtures-es5",
+    "compile:examples": "babel --ignore 'examples/react/*/button.js' examples -d examples-es5",
+    "compile:fixtures": "babel test/fixtures -d test/fixtures-es5",
+    "pretest": "npm run -s lint && npm run -s compile:fixtures",
+    "test": "ava --verbose 'test/*-test.js'"
   },
   "keywords": [
     "css",
@@ -30,16 +33,28 @@
   "repository": "joakimbeng/unistyle",
   "license": "MIT",
   "devDependencies": {
-    "ava": "^0.2.0",
+    "ava": "^0.11.0",
+    "babel-cli": "^6.4.5",
+    "babel-core": "^6.4.5",
+    "babel-preset-es2015": "^6.3.13",
+    "babel-preset-stage-2": "^6.3.13",
+    "classnameify": "^1.0.0",
     "os-tmpdir": "^1.0.1",
     "promise-all": "^1.0.0",
-    "xo": "^0.9.0"
+    "xo": "^0.12.1"
   },
   "xo": {
     "space": true,
     "ignores": [
       "test/fixtures/**",
+      "test/fixtures-es5/**",
       "examples/**"
+    ]
+  },
+  "babel": {
+    "presets": [
+      "es2015",
+      "stage-2"
     ]
   },
   "directories": {
@@ -47,9 +62,8 @@
     "example": "examples"
   },
   "dependencies": {
-    "babel-core": "^5.8.25",
     "kebab-case": "^1.0.0",
-    "meow": "^3.3.0",
+    "meow": "^3.7.0",
     "pify": "^2.2.0",
     "pixelify": "^2.0.1",
     "to-css": "^1.2.1",
