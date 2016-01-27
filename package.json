@@ -48,7 +48,8 @@
     "ignores": [
       "test/fixtures/**",
       "test/fixtures-es5/**",
-      "examples/**"
+      "examples/**",
+      "examples-es5/**"
     ]
   },
   "babel": {
