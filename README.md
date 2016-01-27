@@ -441,7 +441,7 @@ Unistyle also uses [`dashify`](https://github.com/jonschlinkert/dashify) and [`p
 |------|------|-------------|
 | obj | `Object|Array` | The Unistyle Object to compile to CSS |
 
-Returns: `Promise`, which resolves to the compiles CSS string.
+Returns: `Promise`, which resolves to the compiled CSS string.
 
 ## License
 
