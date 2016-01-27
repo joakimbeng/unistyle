@@ -34,16 +34,18 @@ $> unistyle --help
 
   Options:
     -o, --output   Output compiled CSS to specified file instead of to stdout  [string]
-    --babel        Compile source using Babel before applying Unistyle  [boolean=true]
     -h, --help     Show help  [boolean]
     -v, --version  Show version number  [boolean]
 
   Examples:
     unistyle -o app.css src/styles.js       Compile src/styles.js to app.css
-    unistyle --no-babel -o style.css style  Compile style/index.js without Babel to style.css
 ```
 
 ## Examples
+
+**Note:** All examples below assumes you're already using [Babel](https://babeljs.io) in your project. Or perhaps [`unistyle-loader`](https://github.com/willheslam/unistyle-loader) together with a Babel loader and [Webpack](https://github.com/webpack/webpack).
+
+The examples source code can be found in `./examples` and their compiled counterparts in `./examples-es5`.
 
 ### Using modules and variables
 
@@ -83,7 +85,7 @@ export default {
 };
 ```
 
-Compiling to CSS with `unistyle examples/vars` will give the following result:
+Compiling to CSS with `unistyle examples-es5/vars` will give the following result:
 
 ```css
 body, .btn {
@@ -120,7 +122,7 @@ export default {
 };
 ```
 
-Compiling to CSS with `unistyle examples/extend/button` will give the following:
+Compiling to CSS with `unistyle examples-es5/extend/button` will give the following:
 
 ```css
 button {
@@ -156,7 +158,7 @@ export default {
 };
 ```
 
-Compiling with `unistyle examples/mediaqueries` will give:
+Compiling with `unistyle examples-es5/mediaqueries` will give:
 
 ```css
 body {
@@ -200,7 +202,7 @@ function font(family, filename) {
 }
 ```
 
-Compiling with `unistyle examples/font-faces` will give:
+Compiling with `unistyle examples-es5/font-faces` will give:
 
 ```css
 @font-face {
@@ -290,7 +292,7 @@ export default classnameify({
 });
 ```
 
-Compiling to CSS with `unistyle examples/react/separate/styles.js`, gives the following CSS:
+Compiling to CSS with `unistyle examples-es5/react/separate/styles.js`, gives the following CSS:
 
 ```css
 ._cf2b82a {
@@ -427,9 +429,9 @@ And then run: `npm run build` to create `styles.css`.
 
 ## How does it work?
 
-Unistyle uses [Babel](https://babeljs.io) ~~and [AbsurdJS](http://absurdjs.com/pages/css-preprocessing/)~~ under the hood. Unistyle does not use AbsurdJS anymore, but instead uses [`unistyle-flat`](https://github.com/joakimbeng/unistyle-flat) to allow nesting of styles and [`to-css`](https://github.com/joakimbeng/to-css) to compile to CSS. This is because AbsurdJS had so many more features than are actually needed which makes Unistyle less magical now.
+~~Unistyle uses [Babel](https://babeljs.io) and [AbsurdJS](http://absurdjs.com/pages/css-preprocessing/)~~ under the hood. Unistyle does not use Babel or AbsurdJS anymore. It's up to you to use Babel if you want to, or stick with the ES2015 features currently in Node v4 or v5. Instead of AbsurdJS Unistyle uses [`unistyle-flat`](https://github.com/joakimbeng/unistyle-flat) to allow nesting of styles and [`to-css`](https://github.com/joakimbeng/to-css) to compile to CSS. This is because AbsurdJS had so many more features than are actually needed which makes Unistyle less magical now.
 
-Unistyle also uses [`dashify`](https://github.com/jonschlinkert/dashify) and [`pixelify`](https://github.com/joakimbeng/pixelify) to be able to write CSS properties in camelCase (to lessen the need for quotes) and to append values with `'px'` when appropriate, i.e. `{fontSize: 10} => font-size: 10px;`. This makes your Unistyle modules compatible with [React inline styles](https://facebook.github.io/react/tips/inline-styles.html).
+Unistyle also uses [`kebab-case`](https://github.com/joakimbeng/kebab-case) and [`pixelify`](https://github.com/joakimbeng/pixelify) to be able to write CSS properties in camelCase (to lessen the need for quotes) and to append values with `'px'` when appropriate, i.e. `{fontSize: 10} => font-size: 10px;`. This makes your Unistyle modules compatible with [React inline styles](https://facebook.github.io/react/tips/inline-styles.html).
 
 **Note:** [`to-css`](https://github.com/joakimbeng/to-css)'s feature to [set a property multiple times](https://github.com/joakimbeng/to-css#when-you-want-to-set-a-property-multiple-times) should not be used in your inline styles and only in your compiled stylesheet.
 
