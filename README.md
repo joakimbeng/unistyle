@@ -2,7 +2,7 @@
 
 ![unistyle logo](https://cdn.rawgit.com/joakimbeng/unistyle/v0.1.0/media/unistyle.svg)
 
-[![Build status][travis-image]][travis-url] [![NPM version][npm-image]][npm-url] [![js-xo-style][codestyle-image]][codestyle-url]
+[![Build status][travis-image]][travis-url] [![NPM version][npm-image]][npm-url] [![XO code style][codestyle-image]][codestyle-url]
 
 > Write modular and scalable CSS using the next version of ECMAScript.
 
@@ -452,4 +452,4 @@ MIT @ Joakim Carlstein
 [travis-url]: https://travis-ci.org/joakimbeng/unistyle
 [travis-image]: https://travis-ci.org/joakimbeng/unistyle.svg?branch=master
 [codestyle-url]: https://github.com/sindresorhus/xo
-[codestyle-image]: https://img.shields.io/badge/code%20style-xo-brightgreen.svg?style=flat
+[codestyle-image]: https://img.shields.io/badge/code_style-XO-5ed9c7.svg?style=flat
